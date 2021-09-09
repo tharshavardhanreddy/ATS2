@@ -20,7 +20,7 @@ class UserClass{
             input.emailVerifyCode= emailVerifyCode;
             const salt= await bcrypt.genSalt(10);
             input.password=  await bcrypt.hash(input.password,salt);
-            const newUser=await User.create(input);
+            const newUser=await User.create(input,{fields:{password:0,__v:0,_id:0}});
             await verifyemail(input.email,emailVerifyCode);
             response.successReponse({status:201,result:newUser,res})
           
