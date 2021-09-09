@@ -14,7 +14,7 @@ const connectdb = async () => {
     });
 
 
-        log.info({module:"DB"},'MongoDB connected')
+        log.info({module:"DB"},'MongoDB connected successfully')
      
 
     } catch (error) {
