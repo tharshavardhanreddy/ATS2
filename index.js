@@ -17,7 +17,7 @@ const corsOptions = {
 app.use(cors(corsOptions))
 app.use((req, res, next) => {
     // console.log(req.hostname, req.headers, req.path);
-   log.info({module:"index"},{hostname:req.hostname,headers:req.headers,path:req.path})
+ 
     const allowedMethods = ["POST", "GET", "PUT"];
     if (!allowedMethods.includes(req.method)) {
         errorResponse({ status: 400, result: `${req.method} method is not allowed`, res })
