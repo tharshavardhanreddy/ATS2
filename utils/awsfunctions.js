@@ -21,7 +21,7 @@ class AWS{
     }
     async  sendEmail(email,subject,body) {
         
-        log.info({module:"EMAIL"},aws.config)
+       
         const ses = new aws.SES();
         const template= body.template;
        
