@@ -7,6 +7,7 @@ const cors= require('cors');
 const {errorResponse}= require('./utils/Response')
 dotenv.config({path:'./config/config.env'});
 const app=express();
+const port=process.env.PORT ||5000;
 connectDB();
 app.use(express.json());
 const corsOptions = {
@@ -28,6 +29,6 @@ app.use("/api/v1",router);
 
 
 
-app.listen(process.env.port,()=>{
-    log.info({module:'index'},`Server started on port ${process.env.port}`)
+app.listen(port,()=>{
+    log.info({module:'index'},`Server started on port ${port}`)
 })
