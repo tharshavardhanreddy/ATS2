@@ -17,7 +17,10 @@ const userschema = mongoose.Schema({
         unique:true,
         required:true
     },
-    password:String,
+    password:{
+        type:String,
+        select:false
+    },
     mobile:{
         type:String,
         unique:true,
