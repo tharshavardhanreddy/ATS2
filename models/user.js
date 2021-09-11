@@ -39,9 +39,9 @@ const userschema = mongoose.Schema({
     fax:String,
     otherEmail:String,
     role:{
-        type: String,
+        type: [String],
         enum: ["JOBSEEKER", "COMPANY","ADMIN","INTERNAL-RECRUITER","FREELANCE-RECRUITER","INTERN","OTHER"],
-        default: "OTHER"
+       
     },
     userVerified:{
         type:Boolean,
