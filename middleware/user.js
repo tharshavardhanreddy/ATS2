@@ -50,7 +50,11 @@ function authorize(roles) {
 
         try {
 
-            if (!roles.includes(req.user.role)) {
+            const arr1= req.user.role;
+           const result= arr1.some(item=>roles.includes(item));
+          
+
+            if (!result) {
                 throw new Error("Not authorised to access resource")
             }
 
