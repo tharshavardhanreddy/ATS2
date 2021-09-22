@@ -11,7 +11,7 @@ class UserClass{
     async UserSignUp(req,res,next){
         try {
          const input= req.body;
-         log.info({module:'User'},input)
+      
          input.role=["OTHER"]
                
            
