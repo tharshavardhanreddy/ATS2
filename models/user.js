@@ -46,12 +46,12 @@ const userschema = mongoose.Schema({
         enum: ["JOBSEEKER", "COMPANY","ADMIN","INTERNAL-RECRUITER","FREELANCE-RECRUITER","INTERN","OTHER"],
        
     },
-    userVerified:{
+    level1Verified:{
         type:Boolean,
         enum:[true,false],
         default:false
     },
-    credVerified:{
+    level2Verified:{
         type:Boolean,
         enum:[true,false],
         default:false
@@ -64,7 +64,8 @@ const userschema = mongoose.Schema({
     state:String,
     postalCode:String,
     streetAddress:String,
-    password:String
+    password:String,
+    empId:String
 
 });
 

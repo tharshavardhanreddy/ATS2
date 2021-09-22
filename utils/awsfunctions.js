@@ -6,7 +6,6 @@ const nodemailer = require('nodemailer');
 const log= require('./bunyanLogger');
 
 
-
 class AWS{
     constructor(){
         
