@@ -45,7 +45,7 @@ class UserClass{
                   throw new Error(`User with email ${email} does not exist`)
               }
               if(!user._doc.emailVerified){
-                    await verifyemail(input.email,emailVerifyCode);
+                    await verifyemail(email,user._doc.emailVerifyCode);
                   throw new Error("Please verify your email.Verification code sent to your email")
               }
              
