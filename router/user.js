@@ -6,6 +6,7 @@ const upload= multer({dest:'uploads/'})
 userRouter.post("/register",userInstance.UserSignUp)
 userRouter.post("/login",userInstance.UserLogin);
 userRouter.post("/upload",upload.single('requirement'),userInstance.CreateBulk);
+userRouter.put("/verifyEmail",userInstance.verifyEmail);
 
 
 

@@ -25,7 +25,7 @@ class UserClass{
             input.password=  await bcrypt.hash(input.password,salt);
             const newUser=await User.create(input);
             log.info({module:"User"},newUser)
-            await verifyemail(input.email,emailVerifyCode);
+            // await verifyemail(input.email,emailVerifyCode);
             response.successReponse({status:201,result:newUser,res})
           
           
@@ -44,12 +44,13 @@ class UserClass{
               if(!user){
                   throw new Error(`User with email ${email} does not exist`)
               }
-              if(!user._doc.emailVerified){
-                    await verifyemail(email,user._doc.emailVerifyCode);
+             
+              if(!user.emailVerifed){
+                    // await verifyemail(email,user._doc.emailVerifyCode);
                   throw new Error("Please verify your email.Verification code sent to your email")
               }
              
-              if(!user._doc.level1Verified){
+              if(!user.level1Verified){
                   throw new Error("Pending Approval from Admin. Please contact admin at support@sellcraft.net")
               }
               const comparePassword= await bcrypt.compare(password,user.password);
@@ -80,6 +81,25 @@ class UserClass{
            
             response.successReponse({status:200,result:'done',res})
             
+        } catch (error) {
+            response.errorResponse({status:400,result:error.message,res,errors:error.stack})
+        }
+    }
+    async verifyEmail(req,res,next){
+        try {
+            const input= req.body;
+            const user= await User.findOne({email:input.email});
+            if(!user){
+                throw new Error(`User with email ${input.email} does not exist`)
+            };
+             const code= user.emailVerifyCode;
+             if(code!==input.code){
+                    throw new Error("OTP mismatch try again")
+             }
+            await User.findByIdAndUpdate(user._id,{emailVerifed:true,emailVerifyCode:null},{new:true,runValidators:true});
+            
+
+            response.successReponse({status:200,result:"Email Verified",res})
         } catch (error) {
             response.errorResponse({status:400,result:error.message,res,errors:error.stack})
         }
