@@ -1,6 +1,6 @@
 const mongoose= require('mongoose');
 
-const permissionSchema = mongoose.Schema({
+const permissionSchema =  mongoose.Schema({
 
 
     moduleTypes:[{
