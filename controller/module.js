@@ -12,12 +12,12 @@ class ModuleController {
             delete module._id
             delete module.__v
 
-            const permissions = ["READ", "WRITE", "DELETE"]
+            // const permissions = ["READ", "WRITE", "DELETE"]
 
-            permissions.map(async (permission) => {
-                await Permission.create({ moduleType: req.body.moduleName, permission });
+            // permissions.map(async (permission) => {
+            //     await Permission.create({ moduleType: req.body.moduleName, permission });
 
-            })
+            // })
 
             response.successReponse({ status: 200, result: { module }, res })
         } catch (error) {
@@ -27,7 +27,7 @@ class ModuleController {
     }
     async viewModules(req, res, next) {
         try {
-            const module = await Module.find({}, '-_id -__v');
+            const module = await Module.find({}, ' -__v');
             response.successReponse({ status: 200, result: module, res })
         } catch (error) {
             response.errorResponse({ status: 400, result: error.message, res, errors: error.stack })

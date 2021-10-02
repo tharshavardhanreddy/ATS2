@@ -2,11 +2,21 @@ const mongoose= require('mongoose');
 
 const permissionSchema = mongoose.Schema({
 
-moduleType:{
-    type:String,
+
+    moduleTypes:[{
+       type:String
+    }
+     
+    ],
     
-},
-permission:String
+
+permissionName:String,
+permissionType:{
+    type:String,
+    enum:['READ','WRITE','DELETE'],
+    default:'READ'
+}
+
 
 });
 
