@@ -1,5 +1,10 @@
 const response= require('../utils/Response');
 const User= require('../models/user');
+const log= require('../utils/bunyanLogger')
+const Role= require('../models/role')
+const {convertToObjectID}= require('../utils/misc')
+
+
 
 class AdminController{
 
@@ -74,6 +79,24 @@ class AdminController{
          } catch (error) {
             response.errorResponse({status:400,result:error.message,res,errors:error.stack})
          }
+    }
+    async assignRoleToUser(req,res,next){
+        try {
+              const roleid= convertToObjectID(req.params.roleid)
+              const role=await Role.findById(roleid) ;
+              if(!role){
+                  throw new Error("Role does not exist")
+              }
+              const userid=convertToObjectID(req.params.id);
+              const user = await User.findById(userid);
+              if(!user){
+                  throw new Error("User does not exist");
+              }
+
+            response.successReponse({status:200,result:'Role Assignment Complete',res})
+        } catch (error) {
+            response.errorResponse({status:400,result:error.message,res,errors:error.stack})
+        }
     }
 }
 

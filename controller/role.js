@@ -22,7 +22,7 @@ class Role{
                } 
         }));
         if(PermissionExists.includes(false)){
-            throw new Error("One or more Permissions do not exist or have been deleted");
+            throw new Error("One or more Permissions do not exist or have been deleted ");
         }
           const createdRole= await Roles.create({roleName:req.body.roleName,permissions})
                        
@@ -36,9 +36,13 @@ class Role{
     }
     async ListRole(req,res,next){
         try {
+            const roles= await Roles.find().populate('permissions','-__v');
+            response.successReponse({ status: 201, result: roles, res })
             
         } catch (error) {
-            
+            response.errorResponse({ status: 400, 
+                result: error.message, 
+                res, errors: error.stack })
         }
     }
 }
