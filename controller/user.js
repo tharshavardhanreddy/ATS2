@@ -4,7 +4,8 @@ const bcrypt= require('bcryptjs');
 const jwt= require('jsonwebtoken')
 const {verifyemail}= require('../utils/mailcontent')
 const response= require('../utils/Response')
-const xlsx= require('read-excel-file/node')
+const xlsx= require('read-excel-file/node');
+const { convertToObjectID } = require('../utils/misc');
 
 class UserClass{
 
@@ -100,6 +101,31 @@ class UserClass{
             
 
             response.successReponse({status:200,result:"Email Verified",res})
+        } catch (error) {
+            response.errorResponse({status:400,result:error.message,res,errors:error.stack})
+        }
+    }
+    async getUser(req,res,next){
+        try {
+            const id= convertToObjectID("614ad81616108a13e643fb0c")
+            const user= await User.findById(id)
+                              .select(' -__v  -password -emailVerifyCode')
+                             .populate({path:'role',
+                                    populate:{
+                                        path:'permissions',
+                                        populate:{
+                                            path:'moduleTypes',
+                                            model:'Module',
+                                            select:' -__v'
+                                        },
+                                        model:"Permission",
+                                        select:" -__v"
+                                    },
+                                    select:'-_id -__v'
+                                })
+           
+
+            response.successReponse({status:200,result:user,res})
         } catch (error) {
             response.errorResponse({status:400,result:error.message,res,errors:error.stack})
         }

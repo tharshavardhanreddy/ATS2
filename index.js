@@ -9,16 +9,17 @@ dotenv.config({path:'./config/config.env'});
 const app=express();
 const port=process.env.PORT ||5000;
 connectDB();
+
 app.use(express.json());
 const corsOptions = {
     origin: "*",
-    methods: ["POST", "GET", "PUT"]
+    methods: ["POST", "GET", "PUT","DELETE"]
 }
 app.use(cors(corsOptions))
 app.use((req, res, next) => {
     // console.log(req.hostname, req.headers, req.path);
  
-    const allowedMethods = ["POST", "GET", "PUT"];
+    const allowedMethods = ["POST", "GET", "PUT","DELETE"];
     if (!allowedMethods.includes(req.method)) {
         errorResponse({ status: 400, result: `${req.method} method is not allowed`, res })
 

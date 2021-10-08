@@ -41,11 +41,11 @@ const userschema = mongoose.Schema({
     officePhone:String,
     fax:String,
     otherEmail:String,
-    role:{
-        type: [String],
-        enum: ["JOBSEEKER", "COMPANY","ADMIN","INTERNAL-RECRUITER","FREELANCE-RECRUITER","INTERN","OTHER"],
-       
-    },
+    role:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Roles',
+        
+    }],
     level1Verified:{
         type:Boolean,
         enum:[true,false],

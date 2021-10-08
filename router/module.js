@@ -3,8 +3,8 @@ const moduleRouter= express.Router();
 const {protect,authorize}= require("../middleware/user");
 const  moduleController= require("../controller/module")
 
-moduleRouter.post("/addModule",protect,authorize("ADMIN"),moduleController.addModule);
-moduleRouter.get("/viewModules",protect,authorize("ADMIN"),moduleController.viewModules);
+moduleRouter.post("/addModule",moduleController.addModule);
+moduleRouter.get("/viewModules",moduleController.viewModules);
 
 
 module.exports= moduleRouter;

@@ -2,12 +2,15 @@ const Permission= require('../models/permissions');
 const response = require('../utils/Response');
 const log = require('../utils/bunyanLogger');
 const Modules= require('../models/module')
+const Roles= require('../models/role')
+const {convertToObjectID}= require('../utils/misc')
 
 async function checkModuleExistance(val){
   
     const result=[]
     await Promise.all(val.map( async item=>{
-         const module=await Modules.findOne({moduleName:item});
+           const tempId=convertToObjectID(item)
+         const module=await Modules.findById(item);
          if(!module){
              result.push(false);
          }else{
@@ -25,9 +28,14 @@ class PermissionController{
 
     async ListPermissions(req,res,next){
         try {
-           
-            const module= req.query.moduleName;
-            const permissions= await Permission.find().select('-id -__v');
+           let permissions;
+
+           if(req.query.permission){
+            permissions=await Permission.find({permissionName:req.query.permission}).populate('moduleTypes',' -__v').select('-id -__v');
+           }else{
+
+               permissions=await Permission.find().populate('moduleTypes',' -__v').select('-id -__v');
+           }
             response.successReponse({ status: 200, result: { permissions }, res })
         } catch (error) {
             response.errorResponse({ status: 400, result: error.message, res, errors: error.stack })
@@ -57,17 +65,18 @@ class PermissionController{
     }
     async addModulesToPermission(req,res,next){
        try {
-        const permissionExists= await Permission.findOne({permissionName:req.body.permissionName});
+        const permission= convertToObjectID(req.body.permission)
+        const permissionExists= await Permission.findById(permission);
         if(!permissionExists){
             throw new Error('Permission does not exist')
         }
-          const moduleexists= await checkModuleExistance([req.body.moduleName]);
+          const moduleexists= await checkModuleExistance([req.body.module]);
             if(!moduleexists){
                 throw  new Error('Specified Module does not exist')
             }
-           const updatedPermission= await Permission.findOneAndUpdate({permissionName:req.body.permissionName },{
+           const updatedPermission= await Permission.findByIdAndUpdate(permission,{
                $addToSet:{
-                   moduleTypes:req.body.moduleName                
+                   moduleTypes:req.body.module                
                    
                }
            },{new:true,runValidators:true});
@@ -78,17 +87,18 @@ class PermissionController{
     }
     async removeModulesFromPermission(req,res,next){
         try {
-            const permissionExists= await Permission.findOne({permissionName:req.body.permissionName});
+            const permission= convertToObjectID(req.body.permission)
+            const permissionExists= await Permission.findById(permission);
             if(!permissionExists){
                 throw new Error('Permission does not exist')
             }
-              const moduleexists= await checkModuleExistance([req.body.moduleName]);
+              const moduleexists= await checkModuleExistance([req.body.module]);
                 if(!moduleexists){
                     throw  new Error('Specified Module does not exist')
                 }
-               const updatedPermission= await Permission.findOneAndUpdate({permissionName:req.body.permissionName, },{
+               const updatedPermission= await Permission.findByIdAndUpdate(permission,{
                    $pull:{
-                       moduleTypes:req.body.moduleName                
+                       moduleTypes:req.body.module               
                        
                    }
                },{new:true,runValidators:true});
@@ -96,6 +106,27 @@ class PermissionController{
            } catch (error) {
             response.errorResponse({ status: 400, result: error.message, res, errors: error.stack })
            }
+    }
+    async deletePermission(req,res,next){
+        try {
+            const permission= convertToObjectID(req.body.permission)
+            const permissionExists= await Permission.findById(permission);
+            if(!permissionExists){
+                throw new Error("Permission Not Found")
+            }
+
+            const roles= await Roles.find({permissions:{
+                $in:[permission]
+            }});
+           if(roles.length>0){
+               throw new Error("Cannot delete Permission as it is used in one or more roles")
+           }
+           await Permission.deleteOne({_id:permissionExists._id});
+
+            response.successReponse({ status: 200, result: 'deleted Permission', res })
+        } catch (error) {
+            response.errorResponse({ status: 400, result: error.message, res, errors: error.stack })
+        }
     }
 }
 

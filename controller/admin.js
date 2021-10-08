@@ -82,16 +82,24 @@ class AdminController{
     }
     async assignRoleToUser(req,res,next){
         try {
+            
               const roleid= convertToObjectID(req.params.roleid)
               const role=await Role.findById(roleid) ;
               if(!role){
                   throw new Error("Role does not exist")
               }
-              const userid=convertToObjectID(req.params.id);
+              const userid=convertToObjectID(req.params.userid);
               const user = await User.findById(userid);
               if(!user){
                   throw new Error("User does not exist");
               }
+              const updatedUser=await User.updateOne({_id:user._id},{
+                  $addToSet:{
+                      role:roleid
+                  }
+              },{new:true,runValidators:true})
+
+              log.info(updatedUser)
 
             response.successReponse({status:200,result:'Role Assignment Complete',res})
         } catch (error) {

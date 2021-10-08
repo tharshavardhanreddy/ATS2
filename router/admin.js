@@ -6,6 +6,6 @@ const adminController=require('../controller/admin')
 adminRouter.get("/users",protect,authorize(["ADMIN"]),adminController.getUsers)
 adminRouter.put('/firstApproval',protect,authorize(["ADMIN"]),adminController.firstApproval)
 adminRouter.put('/secondApproval',protect,authorize(["ADMIN"]),adminController.secondApproval)
-adminRouter.put("/",protect,authorize(["ADMIN"]),adminController.assignRoleToUser)
+adminRouter.put("/",adminController.assignRoleToUser)
 
 module.exports=adminRouter

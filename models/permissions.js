@@ -4,7 +4,8 @@ const permissionSchema =  mongoose.Schema({
 
 
     moduleTypes:[{
-       type:String
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Module',
     }
      
     ],

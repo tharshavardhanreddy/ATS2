@@ -7,8 +7,8 @@
     "node": "14.13.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js | bunyan -o short -L",
+    "dev": " nodemon index.js | bunyan -o short -L",
+    "test": " env-cmd -f ./config/test.env  nodemon index.js | bunyan -o short -L",
     "start": "node index.js | bunyan -o short -L"
   },
   "keywords": [],
@@ -32,6 +32,7 @@
     "@babel/cli": "^7.15.4",
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.15.4",
-    "babel-plugin-module-resolver": "^4.1.0"
+    "babel-plugin-module-resolver": "^4.1.0",
+    "env-cmd": "^10.1.0"
   }
 }
