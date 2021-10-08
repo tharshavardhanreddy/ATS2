@@ -42,6 +42,7 @@ class Role {
             let roles;
             if (req.query.role) {
                 roles = await Roles.find({ roleName: req.query.role })
+               
                 .populate({
                     path: 'permissions',
                     populate: {
@@ -49,10 +50,13 @@ class Role {
                         model: 'Module',
                         select: '-_id -__v'
                     },
-                    select:'-__v'
-                })                   
+                    select:' -__v'
+                   
+                }) 
+                .select('-__v')                  
             } else {
                 roles = await Roles.find()
+               
                 .populate({
                     path: 'permissions',
                     populate: {
@@ -60,8 +64,9 @@ class Role {
                         model: 'Module',
                         select: '-_id -__v'
                     },
-                    select: '-__v'
-                })
+                    select:' -__v'
+                })  
+                .select('-__v')     
 
 
                    
