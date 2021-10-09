@@ -61,7 +61,22 @@ class UserClass{
               const token= jwt.sign({ id: user._id }, 
                 process.env.sharedkey, 
                 { expiresIn: process.env.tokenExpiry });
-                const updatedUser= await User.findByIdAndUpdate({_id:user._id},{token},{ new:true,runValidators:true,fields:{password:0,__v:0,_id:0}});
+                const updatedUser= await User.findByIdAndUpdate({_id:user._id},
+                    {token},
+                    { new:true,runValidators:true,fields:{password:0,__v:0}})
+                    .populate({path:'role',
+                    populate:{
+                        path:'permissions',
+                        populate:{
+                            path:'moduleTypes',
+                            model:'Module',
+                            select:' -__v'
+                        },
+                        model:"Permission",
+                        select:" -__v"
+                    },
+                    select:' -__v'
+                })
                 response.successReponse({status:200,result:updatedUser,res})
         } catch (error) {
             response.errorResponse({status:400,result:error.message,res,errors:error.stack})
