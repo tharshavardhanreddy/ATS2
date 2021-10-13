@@ -1,6 +1,11 @@
 const User= require('../models/user')
 const jwt = require('jsonwebtoken');
 const response = require('../utils/Response');
+const log = require('../utils/bunyanLogger');
+const Permission= require('../models/permissions');
+const Roles= require('../models/role');
+const { convertToObjectID } = require('../utils/misc');
+const { populate } = require('../models/user');
 
 
 
@@ -40,31 +45,71 @@ async function protect(req, res, next,) {
         next();
 
     } catch (error) {
+        error.statusCode=403
+        next(error);
 
-        return response.errorResponse({ status: 400, errors: error.stack, result: error.message, res })
+        // return response.errorResponse({ status: 400, errors: error.stack, result: error.message, res })
     }
 }
 function authorize(roles) {
-
-    return (req, res, next) => {
-
+   
+    return async (req, res, next) => {
+       
         try {
-
             const arr1= req.user.role;
-           const result= arr1.some(item=>roles.includes(item));
+           const arr2=[]
+           await Promise.all(arr1.map(async item=>{
+               const roleId= convertToObjectID(item);
+               const role=  await Roles.findById(roleId).populate({
+                   path:'permissions',
+                   populate:{
+                       path:'moduleTypes',
+                       model:"Module",
+                       select:'-__v'
+                   },
+                   model:'Permission',
+                   select:'-__v'
+               })
+               arr2.push(role)
+           }))
+       
+        let arr3=[],arr4=[]
+           arr2.map(item=>{
+              const permissions=item.permissions;
+                const filteredPermissions=permissions.filter(item=>item.permissionType===roles.permissionType)
+                   arr3.push(filteredPermissions[0]);
+        });
+         if(arr3.length===0){
+             throw new Error("Not Authorised to access resource")
+         }
+      
+        
+          arr3.forEach(item=>{
+              const res= item.moduleTypes;
+              res.forEach(item1=>{
+                     arr4.push(item1.moduleName)
+              })
+               arr4.push(item.moduleTypes)
+          });
+         arr4= arr4.filter(item=>item===roles.moduleName);
+          if(arr4.length===0){
+            throw new Error("Not Authorised to access resource")
+        }
+       
           
-
-            if (!result) {
-                throw new Error("Not authorised to access resource")
-            }
-
-
-            next();
-        } catch (error) {
-            return response.errorResponse({ status: 400, errors: error.stack, result: error.message, res })
+             next();
+           
+        }
+        
+    
+    
+        catch (error) {
+            error.statusCode=403
+        next(error);
+            // return response.errorResponse({ status: 400, errors: error.stack, result: error.message, res })
         }
 
-    };
+    }
 
 
 }

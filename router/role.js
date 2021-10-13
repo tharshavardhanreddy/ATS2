@@ -3,10 +3,10 @@ const roleController= require('../controller/role')
 const { authorize,protect }= require('../middleware/user')
 const adminRouter=require('./admin')
 const roleRouter= express.Router();
-roleRouter.use('/assignRole/:roleid/user/:userid',adminRouter)
-roleRouter.post('/createRole',roleController.createRole)
-roleRouter.get("/listRoles",roleController.ListRole)
-roleRouter.put("/editRolePermission",roleController.editRolePermissions)
+roleRouter.use('/assignRole/:roleid/user/:userid',protect,authorize({permissionType:"WRITE",moduleName:"Roles"}),adminRouter)
+roleRouter.post('/createRole',protect,authorize({permissionType:"WRITE",moduleName:"Roles"}),roleController.createRole)
+roleRouter.get("/listRoles",protect,authorize({permissionType:"READ",moduleName:"Roles"}),roleController.ListRole)
+roleRouter.put("/editRolePermission",protect,authorize({permissionType:"WRITE",moduleName:"Roles"}),roleController.editRolePermissions)
 
 
 module.exports= roleRouter;

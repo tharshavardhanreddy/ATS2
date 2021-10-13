@@ -99,7 +99,7 @@ class AdminController{
                   }
               },{new:true,runValidators:true})
 
-              log.info(updatedUser)
+             
 
             response.successReponse({status:200,result:'Role Assignment Complete',res})
         } catch (error) {

@@ -13,7 +13,7 @@ class UserClass{
         try {
          const input= req.body;
       
-         input.role=["OTHER"]
+       
                
            
             if(input.password!==input.confirmpassword){
@@ -31,6 +31,7 @@ class UserClass{
           
           
         } catch (error) {
+            // next(error)
             response.errorResponse({status:400,result:error.message,res,errors:error.stack})
         }
     }
@@ -77,9 +78,12 @@ class UserClass{
                     },
                     select:' -__v'
                 })
+               
                 response.successReponse({status:200,result:updatedUser,res})
         } catch (error) {
-            response.errorResponse({status:400,result:error.message,res,errors:error.stack})
+            // response.errorResponse({status:400,result:error.message,res,errors:error.stack})
+            error.statusCode=400;
+            next(error)
         }
     }
     async CreateBulk(req,res,next){
