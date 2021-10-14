@@ -48,7 +48,7 @@ class Role {
                     populate: {
                         path: 'moduleTypes',
                         model: 'Module',
-                        select: '-_id -__v'
+                        select: ' -__v'
                     },
                     select:' -__v'
                    
