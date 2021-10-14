@@ -83,6 +83,15 @@ class Role {
             })
         }
     }
+    async ListOnlyRoles(req,res,next){
+        try {
+            const roles= await Roles.find().select("-__v -permissions");
+            response.successReponse({ status: 201, result: roles, res })
+        } catch (error) {
+            error.statusCode=400;
+            next(error)
+        }
+    }
     async editRolePermissions(req, res, next) {
         try {
             let message = "Permission and role combination not matched"
