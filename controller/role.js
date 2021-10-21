@@ -98,23 +98,47 @@ class Role {
             const permissionId = convertToObjectID(req.body.permission);
             const flag = req.body.flag;
             const roleID = convertToObjectID(req.body.role);
+            const reportsTo= req.body.reportsTo!==undefined?convertToObjectID(req.body.reportsTo):undefined;
+              
             //flag ==false  remove permissions
             if (!flag) {
-                await Roles.findByIdAndUpdate(roleID, {
-                    $pull: {
-                        permissions: permissionId
-                    }
-                });
+                if(!reportsTo){
+
+                    await Roles.findByIdAndUpdate(roleID, {
+                        $pull: {
+                            permissions: permissionId
+                        }
+                    });
+                }else{
+                    await Roles.findByIdAndUpdate(roleID, {
+                        $pull: {
+                            permissions: permissionId
+                        },
+                        reportsTo
+                    });
+                }
+                
                 message = "Permission Removed from role"
 
 
             }  // flag == true add permission
             else {
-                await Roles.findByIdAndUpdate(roleID, {
-                    $addToSet: {
-                        permissions: permissionId
+                    if(!reportsTo){
+
+                        await Roles.findByIdAndUpdate(roleID, {
+                            $addToSet: {
+                                permissions: permissionId
+                            }
+                        })
+                    }else{
+                        
+                        await Roles.findByIdAndUpdate(roleID, {
+                            $addToSet: {
+                                permissions: permissionId
+                            },
+                            reportsTo
+                        })
                     }
-                })
                 message = "Permission Added to role"
             }
             response.successReponse({ status: 200, result: message, res })
