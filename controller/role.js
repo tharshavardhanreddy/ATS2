@@ -25,7 +25,7 @@ class Role {
             if (PermissionExists.includes(false)) {
                 throw new Error("One or more Permissions do not exist or have been deleted ");
             }
-            const createdRole = await Roles.create({ roleName: req.body.roleName, permissions })
+            const createdRole = await Roles.create({ roleName: req.body.roleName, permissions,reportsTo:convertToObjectID(req.body.role) })
 
             response.successReponse({ status: 201, result: createdRole, res })
         } catch (error) {
@@ -85,7 +85,7 @@ class Role {
     }
     async ListOnlyRoles(req,res,next){
         try {
-            const roles= await Roles.find().select("-__v -permissions");
+            const roles= await Roles.find().select("-__v -permissions").populate('reportsTo','roleName -_id')
             response.successReponse({ status: 201, result: roles, res })
         } catch (error) {
             error.statusCode=400;
