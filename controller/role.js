@@ -25,7 +25,13 @@ class Role {
             if (PermissionExists.includes(false)) {
                 throw new Error("One or more Permissions do not exist or have been deleted ");
             }
-            const createdRole = await Roles.create({ roleName: req.body.roleName, permissions,reportsTo:convertToObjectID(req.body.role) })
+            let createdRole;
+            if(req.body.role){
+
+                createdRole = await Roles.create({ roleName: req.body.roleName, permissions,reportsTo:convertToObjectID(req.body.role) })
+            }else{
+                createdRole = await Roles.create({ roleName: req.body.roleName, permissions })
+            }
 
             response.successReponse({ status: 201, result: createdRole, res })
         } catch (error) {
@@ -94,43 +100,51 @@ class Role {
     }
     async editRolePermissions(req, res, next) {
         try {
-            let message = "Permission and role combination not matched"
-            const permissionId = convertToObjectID(req.body.permission);
+            let message = "Role Permission edited"
+            const permissionId = req.body.permission!==undefined?convertToObjectID(req.body.permission):undefined;
             const flag = req.body.flag;
             const roleID = convertToObjectID(req.body.role);
             const reportsTo= req.body.reportsTo!==undefined?convertToObjectID(req.body.reportsTo):undefined;
               
             //flag ==false  remove permissions
             if (!flag) {
-                if(!reportsTo){
+                
+                if(!reportsTo&&permissionId){
 
                     await Roles.findByIdAndUpdate(roleID, {
                         $pull: {
                             permissions: permissionId
                         }
                     });
-                }else{
+                }else if(reportsTo && permissionId){
                     await Roles.findByIdAndUpdate(roleID, {
                         $pull: {
                             permissions: permissionId
                         },
                         reportsTo
                     });
+                }else if(reportsTo && !permissionId){
+                    await Roles.findByIdAndUpdate(roleID, {
+                  
+                        reportsTo
+                    });
+                }else{
+                    throw new Error("Role or Permission not found")
                 }
                 
-                message = "Permission Removed from role"
+               
 
 
             }  // flag == true add permission
             else {
-                    if(!reportsTo){
+                    if(!reportsTo && permissionId){
 
                         await Roles.findByIdAndUpdate(roleID, {
                             $addToSet: {
                                 permissions: permissionId
                             }
                         })
-                    }else{
+                    }else if (reportsTo && permissionId){
                         
                         await Roles.findByIdAndUpdate(roleID, {
                             $addToSet: {
@@ -138,8 +152,15 @@ class Role {
                             },
                             reportsTo
                         })
+                    }else if(reportsTo && !permissionId){
+                        await Roles.findByIdAndUpdate(roleID, {
+                      
+                            reportsTo
+                        });
+                    }else{
+                        throw new Error("Role or Permission not found")
                     }
-                message = "Permission Added to role"
+               
             }
             response.successReponse({ status: 200, result: message, res })
         } catch (error) {
