@@ -14,6 +14,7 @@ async function protect(req, res, next,) {
 
     try {
         let auth_token;
+        
 
         if (req.headers.authorization === "" || req.headers.authorization === undefined || req.headers.authorization === null) {
             throw new Error("Not authorised")
@@ -32,6 +33,7 @@ async function protect(req, res, next,) {
 
 
         const tokenVerify = await jwt.verify(auth_token, process.env.sharedkey);
+        
         if (tokenVerify.id) {
             req.user = await User.findById(tokenVerify.id)
 
@@ -45,6 +47,7 @@ async function protect(req, res, next,) {
         next();
 
     } catch (error) {
+       
         error.statusCode=403
         next(error);
 
