@@ -14,7 +14,10 @@ class UserClass{
          const input= req.body;
       
        
-               
+               const user= await User.findOne({email:input.email});
+               if(user){
+                   throw new Error("User with this email already exists")
+               }
            
             if(input.password!==input.confirmpassword){
                 throw new Error("Password and ConfirmPassword must match")

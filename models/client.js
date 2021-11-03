@@ -6,7 +6,15 @@ clientName:String,
 location:String,
 POCName:String,
 POCNumber:String,
-POCEmail:String
+POCEmail:String,
+AM:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'User'
+},
+zone:{
+    type:String,
+    enum:["NORTH","SOUTH","EAST","WEST"]
+}
     
 
 });

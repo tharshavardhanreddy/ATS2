@@ -34,7 +34,7 @@ const userschema = mongoose.Schema({
     },
     roleApplied:{
         type: String,
-        enum: ["JOBSEEKER", "COMPANY","ADMIN","INTERNAL-RECRUITER","FREELANCE-RECRUITER","INTERN","OTHER"],
+        enum: ["JOBSEEKER", "COMPANY","ADMIN","EMPLOYEE","FREELANCE-RECRUITER","INTERN","OTHER"],
          required:true
     },
     homePhone:String,

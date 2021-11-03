@@ -8,9 +8,9 @@ const requirementsSchema =  mongoose.Schema({
     },
     RequirementName:{
         type:String,
-        unique:true
+        
     },
-    CreatedOn:String,
+    ClosedDate:String,
     JobCode:String,
     RequirementType:String,
     Location:String,
@@ -33,7 +33,13 @@ const requirementsSchema =  mongoose.Schema({
         enum:['ACTIVE','INACTIVE'],
         default:'ACTIVE'
     },
-    comment:String
+    Comment:String,
+    MaxCTC:Number,
+    ECVS:Number,
+    Description:String,
+    Suggestion:String,
+    InternalJobCode:String
+
 
     
 

@@ -5,7 +5,7 @@ const errorHandler = (err, req, res, next) => {
   let error = { ...err };
         
   error.message = err.message;
-  
+  console.log(error)
   // Log to console for dev
   // console.log(err.code,err.name);
 
