@@ -37,11 +37,11 @@ class RequirementClass{
             // const itemsPerPage = +req.query.itemsPerPage || 10;
             let requirements,count;
             if(req.query.name){
-                 requirements=await Requirements.find({RequirementName:req.query.name})
+                 requirements=await Requirements.find({RequirementName:req.query.name}).populate("ClientId","-_id -AM -__v")
                  count=await Requirements.countDocuments({RequirementName:req.query.name})
             }else{
 
-                 requirements= await Requirements.find()
+                 requirements= await Requirements.find().populate("ClientId","-_id -AM -__v")
                   count= await Requirements.countDocuments();
             }
            
