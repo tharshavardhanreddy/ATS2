@@ -51,6 +51,9 @@ class Client{
         try {
             const {name}= req.body;
             const file= req.file;
+            if(!req.file){
+                throw new Error("Please upload a file")
+            }
             console.log(name,file)
             response.successReponse({ status: 200, result: "Done", res })
             
