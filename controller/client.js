@@ -2,6 +2,7 @@ const ClientModel= require("../models/client");
 const user = require("../models/user");
 const log = require("../utils/bunyanLogger");
 const response = require('../utils/Response');
+
 class Client{
     constructor(){
 
@@ -42,11 +43,29 @@ class Client{
                result: error.message,
                res, errors: error.stack
            })
-       }
+        }
+        
 
     }
+    async updateClient(req,res,next){
+        try {
+            const {name}= req.body;
+            const file= req.file;
+            console.log(name,file)
+            response.successReponse({ status: 200, result: "Done", res })
+            
+        } catch (error) {
+            response.errorResponse({
+                status: 400,
+                result: error.message,
+                res, errors: error.stack
+            })
+        }
+            
+        }
+    }
 
-}
+
 
 const clientInstance = new Client();
 module.exports = clientInstance;
