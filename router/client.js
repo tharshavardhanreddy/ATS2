@@ -5,6 +5,6 @@ const multer= require('multer');
 const upload= multer({dest: 'uploads/'});
 clientRouter.post("/",clientController.createClient);
 clientRouter.get("/",clientController.listClient);
-clientRouter.put("/", upload.single('myfile'),clientController.updateClient);
+clientRouter.put("/", upload.single('cv'),clientController.updateClient);
 
 module.exports=clientRouter

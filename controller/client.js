@@ -51,10 +51,13 @@ class Client{
         try {
             const {name}= req.body;
             const file= req.file;
-            if(!req.file){
+                if(!req.file){
                 throw new Error("Please upload a file")
             }
-            console.log(name,file)
+            const fileUpload= require('../utils/awsupload')
+           const result=await fileUpload(file,process.env.AWS_CV_BUCKET);
+                   
+          
             response.successReponse({ status: 200, result: "Done", res })
             
         } catch (error) {

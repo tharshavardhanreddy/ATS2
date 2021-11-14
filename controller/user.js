@@ -6,6 +6,7 @@ const {verifyemail}= require('../utils/mailcontent')
 const response= require('../utils/Response')
 const xlsx= require('read-excel-file/node');
 const { convertToObjectID } = require('../utils/misc');
+const Role= require('../models/role')
 
 class UserClass{
 
@@ -152,7 +153,20 @@ class UserClass{
             response.errorResponse({status:400,result:error.message,res,errors:error.stack})
         }
     }
+    async getAM(req,res,next){
+        try {
+            const role= await Role.findOne({roleName:"Account Manager"});
+             const id= role._id;
+            const users=await User.find({role:id}).select('_id firstname lastname')
+            response.successReponse({status:200,result:users,res})
+            
+        } catch (error) {
+            response.errorResponse({status:400,result:error.message,res,errors:error.stack})
+        }
 }
+
+}
+
 
 
 const userInstance= new UserClass();

@@ -18,6 +18,8 @@ const requirementsSchema =  mongoose.Schema({
     Postions:String,
     NoOfPosts:String,
     Skills:[String],
+    PrimarySkill:String,
+CreatedDate:String,
     AssignedAM:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User"

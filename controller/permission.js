@@ -44,6 +44,7 @@ class PermissionController{
     async createPermission(req,res,next){
         try {
             const permissionExists= await Permission.findOne({permissionName:req.body.permissionName});
+            const role= await Roles.findOne({roleName:'Admin'});
             if(permissionExists){
                 throw new Error('Permission already exists')
             }
@@ -58,6 +59,8 @@ class PermissionController{
                 permissionName:req.body.permissionName,
                 permissionType:req.body.permissionType,
                  moduleTypes:moduleNames});
+   await Roles.findOneAndUpdate({"_id":role._id},{$addToSet:{permissions:newPermission._id}});
+           
              response.successReponse({ status: 200, result: newPermission, res })
         } catch (error) {
             response.errorResponse({ status: 400, result: error.message, res, errors: error.stack })

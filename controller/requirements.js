@@ -15,14 +15,16 @@ class RequirementClass{
            }
            const existingRequirement= await Requirements.find();
    
-           log.info(existingRequirement)
+           
            if(existingRequirement.length===0){
                req.body.InternalJobCode="SELL-1";
            }else{
                
                req.body.InternalJobCode=`SELL-${+existingRequirement.reverse()[0].InternalJobCode.split("-")[1]+1}`
            }
-           req.body.AssignedAM=client.AM
+           req.body.AssignedAM=client.AM;
+           const date= new Date();
+           req.body.CreatedDate= `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`
             const requirement= await Requirements.create(req.body)
 
             response.successReponse({status:201,result:requirement,res})
