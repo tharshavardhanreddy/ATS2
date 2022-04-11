@@ -9,5 +9,5 @@ adminRouter.get("/users",protect,adminController.getUsers)
 // adminRouter.put("/",protect,authorize({type:"WRITE",module:"User Management"}),adminController.assignRoleToUser)
 adminRouter.put('/firstApproval',protect,adminController.firstApproval)
 adminRouter.put('/secondApproval',protect,adminController.secondApproval)
-adminRouter.put("/",protect,adminController.assignRoleToUser)
+adminRouter.get("/",protect,adminController.assignRoleToUser)
 module.exports=adminRouter
