@@ -5,7 +5,10 @@ const PermissionRouter= require('./permission')
 const AdminRouter=require('./admin');
 const roleRouter = require('./role');
 const clientRouter=require('./client')
-const requirementRouter= require('./requirements')
+const requirementRouter= require('./requirements');
+const skillRouter= require('./skill');
+const locationRouter= require('./location');
+
 
 const router = express.Router();
 
@@ -15,7 +18,11 @@ router.use("/permission",PermissionRouter);
 router.use("/admin",AdminRouter);
 router.use('/role',roleRouter);
 router.use("/client",clientRouter);
-router.use("/requirement",requirementRouter)
+router.use("/requirement",requirementRouter);
+router.use("/skill",skillRouter);
+router.use("/location",locationRouter)
+
+
 
 
 
