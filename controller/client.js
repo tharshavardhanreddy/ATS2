@@ -47,6 +47,24 @@ class Client{
         
 
     }
+
+    async listsclient(req,res,next){
+        try {
+            const clientList= await ClientModel.find()
+            response.successReponse({ status: 200, result: clientList, res })
+           
+       } catch (error) {
+           response.errorResponse({
+               status: 400,
+               result: error.message,
+               res, errors: error.stack
+           })
+        }
+        
+    }
+
+
+
     async updateClient(req,res,next){
         try {
             const {name}= req.body;
