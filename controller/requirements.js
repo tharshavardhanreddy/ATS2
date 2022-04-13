@@ -53,6 +53,21 @@ class RequirementClass{
             next(error)
         }
         }
+
+        async SingleRequirementDetails(req,res,next){
+            const reqid = req.body.id
+            try {
+            const singlereq = await Requirements.findById(reqid)
+            if(!singlereq){
+                throw new Error("Requirement not found!")
+            }
+                response.successReponse({status:200,result:singlereq,res})
+            } catch (error) {
+                error.statusCode=400;
+                next(error)
+            }
+            }
+
    async changeRequirementStatus(req,res,next){
        try {
            
