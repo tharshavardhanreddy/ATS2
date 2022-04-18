@@ -8,7 +8,6 @@ class CandidateClass{
 
     async createCandidate(req,res,next){
         try {
-           
            const requirementid= await Requirements.findById(convertToObjectID(req.body.RequirementId))
            if(!requirementid){
                throw new Error("Requirement does not exist")
