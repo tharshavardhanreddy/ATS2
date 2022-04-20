@@ -37,7 +37,7 @@ app.use("/api/v1", router);
 app.use(error)
 app.use((req, res, next) => {
 
-  errorResponse({ status: 404, result: "Requested resource  is not found", res })
+  errorResponse({ status: 404, result: "Requested resource  not found", res })
 })
 
 
