@@ -12,11 +12,11 @@ class CandidateClass{
            if(!requirementid){
                throw new Error("Requirement does not exist")
            }
-           const existingCandidate= await Candidate.find(req.body.pannumber);
+        //    const existingCandidate= await Candidate.find(req.body.pannumber);
    
-           if(existingCandidate){
-            throw new Error("Candidate details already exists")
-           }
+        //    if(existingCandidate){
+        //     throw new Error("Candidate details already exists")
+        //    }
         //    if(existingRequirement.length===0){
         //        req.body.InternalJobCode="SELL-1";
         //    }else{
