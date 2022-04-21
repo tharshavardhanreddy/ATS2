@@ -43,7 +43,7 @@ app.use((req, res, next) => {
 
 
 app.listen(port, () => {
-  log.info({ module: 'index' }, `Server started on port ${port}`)
+  log.info({ module: 'index' }, `Server is started on port ${port}`)
 })
 
 
