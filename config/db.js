@@ -8,7 +8,7 @@ const connectdb = async () => {
     try {
        log.info({module:"DB"},'connecting db') 
      // mongoose.set("debug",true)
-     await mongoose.connect(`mongodb+srv://${process.env.mongouser}:${process.env.mongopassword}@box-test.ocogl.mongodb.net/SellcraftCRM?retryWrites=true&w=majority`, {
+     await mongoose.connect(`mongodb+srv://${process.env.mongouser}:${process.env.mongopassword }@box-test.ocogl.mongodb.net/SellcraftCRM?retryWrites=true&w=majority`, {
         useNewUrlParser: true,
         useCreateIndex: true,
         useFindAndModify: false,

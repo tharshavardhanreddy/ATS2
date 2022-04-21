@@ -6,7 +6,7 @@ const router = require('./router/router')
 const cors = require('cors');
 const { errorResponse } = require('./utils/Response')
 const error = require('./middleware/error')
-dotenv.config({ path: './config/config.env' });
+dotenv.config({ path: './config.env' });
 const app = express();
 const port = process.env.PORT || 5000;
 connectDB();
@@ -43,7 +43,7 @@ app.use((req, res, next) => {
 
 
 app.listen(port, () => {
-  log.info({ module: 'index' }, `Server is started on port ${port}`)
+  log.info({ module: 'index' }, `Server started on port ${port}`)
 })
 
 
