@@ -12,7 +12,7 @@ class CandidateClass{
            if(!requirementid){
                throw new Error("Requirement does not exist")
            }
-           const existingCandidate= await Candidate.find();
+           const existingCandidate= await Candidate.find(req.body.pannumber);
    
            if(existingCandidate){
             throw new Error("Candidate details already exists")
