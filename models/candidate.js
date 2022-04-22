@@ -11,7 +11,7 @@ const candidateSchema =  mongoose.Schema({
     },
     JobCode:String,
     //candidate details
-    Skills:[String],
+    candidateskills:[String],
     candidatefirstname:String,
     candidatelastname:String,
     candidatenumber:String,
