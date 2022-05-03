@@ -9,6 +9,9 @@ requirementRouter.post("/createRequirement",protect, authorize({permissionType:"
 requirementRouter.get("/listRequirement",protect, authorize({permissionType:"READ",moduleName:"Requirements"}),Requirement.listRequirement);
 requirementRouter.post("/singleRequirement",protect, authorize({permissionType:"READ",moduleName:"Requirements"}),Requirement.SingleRequirementDetails);
 // requirementRouter.post("/singleRequ",protect, authorize({permissionType:"READ",moduleName:"Requirements"}),Requirement.SingleRequDetails);
+requirementRouter.get("/listjwtreqs",protect,Requirement.reqonjwtreqs);
+requirementRouter.put("/asignias",protect,Requirement.AssignIAtoReq);
+
 
 
 

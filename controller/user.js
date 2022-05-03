@@ -165,6 +165,15 @@ class UserClass{
         }
 }
 
+async getListofIr(req,res,next){
+    try{
+        const irs = await User.find({roleApplied:"INTERNAL-RECRUITER"})
+        response.successReponse({status:200,result:irs,res})
+    } catch (error) {
+            response.errorResponse({status:400,result:error.message,res,errors:error.stack})
+        }
+}
+
 }
 
 

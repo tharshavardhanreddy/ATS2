@@ -10,6 +10,7 @@ userRouter.post("/upload",upload.single('requirement'),userInstance.CreateBulk);
 userRouter.put("/verifyEmail",userInstance.verifyEmail);
 userRouter.get("/getUser",userInstance.getUser)
 userRouter.get("/getAM",protect,authorize({permissionType:"READ",moduleName:"User Management"}),userInstance.getAM)
+userRouter.get("/getIrs",userInstance.getListofIr)
 
 
 

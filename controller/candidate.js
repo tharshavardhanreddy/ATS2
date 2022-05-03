@@ -12,11 +12,11 @@ class CandidateClass{
            if(!requirementid){
                throw new Error("Requirement does not exist")
            }
-        //    const existingCandidate= await Candidate.find({pannumber:req.body.pannumber});
+           const existingCandidate= await Candidate.findOne({pannumber:req.body.pannumber, candidateemail:req.body.candidateemail});
    
-        //    if(existingCandidate){
-        //     throw new Error("Candidate details already exists")
-        //    }
+           if(existingCandidate){
+            throw new Error("Candidate details already exists")
+           }
             const candidate= await Candidate.create(req.body)
 
             response.successReponse({status:201,result:candidate,res})
