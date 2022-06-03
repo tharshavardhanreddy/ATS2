@@ -38,7 +38,7 @@ const candidateSchema =  mongoose.Schema({
 //     Experience:String,
 //     Postions:String,
 //     NoOfPosts:String,
-//     Skills:[String],
+    // Skills:[String],
 //     PrimarySkill:String,
 // CreatedDate:String,
 //     AssignedAM:{

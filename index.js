@@ -3,6 +3,9 @@ const dotenv = require('dotenv');
 const log = require('./utils/bunyanLogger');
 const connectDB = require('./config/db')
 const router = require('./router/router')
+//
+const multer = require("multer");
+//
 const cors = require('cors');
 const { errorResponse } = require('./utils/Response')
 const error = require('./middleware/error')
@@ -16,6 +19,18 @@ const corsOptions = {
   origin: "*",
   methods: ["POST", "GET", "PUT", "DELETE"]
 }
+
+//
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, `${Date.now()}_${file.originalname}`);
+  },
+});
+//
+
 app.use(cors(corsOptions))
 app.use((req, res, next) => {
   // console.log(req.hostname, req.headers, req.path);
@@ -33,12 +48,37 @@ app.use((req, res, next) => {
   next();
 });
 
+//
+//var upload = multer({ dest: "uploads/" });
+
+var upload = multer({ storage: storage });
+
+app.post("/file", upload.single("file"), function (req, res, next) {
+  const file = req.file;
+  if (file) {
+    res.json(req.file);
+  } else throw "error";
+});
+
+app.post("/multiplefiles", upload.array("files"), function (req, res, next) {
+  const files = req.files;
+  if (Array.isArray(files) && files.length > 0) {
+    res.json(req.files);
+  } else {
+    res.status(400);
+    throw new Error("No file");
+  }
+});
+//
+
 app.use("/api/v1", router);
 app.use(error)
 app.use((req, res, next) => {
 
   errorResponse({ status: 404, result: "Requested resource  not found", res })
 })
+
+
 
 
 

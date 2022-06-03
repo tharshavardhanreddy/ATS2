@@ -9,6 +9,7 @@ candidateRouter.post("/createCandidate",protect,Candidate.createCandidate);
 // authorize({permissionType:"WRITE",moduleName:"Candidate"} authorize({permissionType:"WRITE",moduleName:"Candidate"})
 candidateRouter.post("/assignedcandidates",protect, Candidate.assignedCandidates);
 // requirementRouter.post("/singleRequirement",protect, authorize({permissionType:"READ",moduleName:"Requirements"}),Requirement.SingleRequirementDetails);
+candidateRouter.get("/listreqcandidates",protect, Candidate.listReqCandidates);
 
 
 module.exports= candidateRouter

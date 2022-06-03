@@ -39,6 +39,22 @@ class CandidateClass{
         next(error)
     }
     }
+
+    //get suitable candidates for specific req's
+
+    async listReqCandidates(req,res,next){
+        try{
+            const requirementid= await Requirements.findById(convertToObjectID(req.body.reqid))
+            if(!requirementid){
+                throw new Error("Requirement does not exist")
+            }
+            const Candidates = await Candidate.find({candidateskills:{ $all : requirementid.Skills }})
+            response.successReponse({status:200,result:Candidates, res})
+        } catch (error) {
+        error.statusCode=400;
+        next(error)
+    }
+    }
     
 
 }
