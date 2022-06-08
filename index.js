@@ -6,7 +6,7 @@ const router = require('./router/router')
 //
 // const multer = require("multer");
 // const multerS3 = require('multer-s3')
-// const AWS= require('aws-sdk');
+const AWS= require('aws-sdk');
 // const S3 = require('aws-sdk/clients/s3');
 // const s3 = new S3();
 // const uuid = require('uuid').v4;
@@ -70,7 +70,7 @@ app.use((req, res, next) => {
   next();
 });
 
-//
+
 //var upload = multer({ dest: "uploads/" });
 
 // var upload = multer({ storage: storage });
