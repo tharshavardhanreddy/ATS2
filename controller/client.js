@@ -13,7 +13,7 @@ class Client{
             const employee= await user.findOne({email:req.body.email})
             const Client= await ClientModel.findOne({clientName:req.body.clientName,location:req.body.location})
                log.info(employee)
-            if(!employee|| employee.roleApplied!=="EMPLOYEE"){
+            if(!employee|| employee.roleApplied!=="MANAGER"){
                 throw new Error("AM not found")
             }
               if(Client){

@@ -4,7 +4,13 @@ const log = require('./utils/bunyanLogger');
 const connectDB = require('./config/db')
 const router = require('./router/router')
 //
-const multer = require("multer");
+// const multer = require("multer");
+// const multerS3 = require('multer-s3')
+// const AWS= require('aws-sdk');
+// const S3 = require('aws-sdk/clients/s3');
+// const s3 = new S3();
+// const uuid = require('uuid').v4;
+
 //
 const cors = require('cors');
 const { errorResponse } = require('./utils/Response')
@@ -21,14 +27,30 @@ const corsOptions = {
 }
 
 //
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads");
-  },
-  filename: function (req, file, cb) {
-    cb(null, `${Date.now()}_${file.originalname}`);
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "uploads");
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, `${Date.now()}_${file.originalname}`);
+//   },
+// });
+// var unique;
+// const upload = multer({
+//     storage: multerS3({
+//         s3: s3,
+//         bucket: 'hemanth-fileupload',
+//         metadata: (req,file, cb)=>{
+//             cb(null,{fieldName: file.fieldname});
+//         },
+//         key:(req, file, cb) =>{
+//             const ext = file.originalname;
+//             unique = uuid();
+//             cb(null, `${unique}-${ext}`);
+//             console.log(unique);
+//         }
+//     })
+// });
 //
 
 app.use(cors(corsOptions))
@@ -51,24 +73,24 @@ app.use((req, res, next) => {
 //
 //var upload = multer({ dest: "uploads/" });
 
-var upload = multer({ storage: storage });
+// var upload = multer({ storage: storage });
 
-app.post("/file", upload.single("file"), function (req, res, next) {
-  const file = req.file;
-  if (file) {
-    res.json(req.file);
-  } else throw "error";
-});
+// app.post("/file", upload.single("file"), function (req, res, next) {
+//   const file = req.file;
+//   if (file) {
+//     res.json(req.file);
+//   } else throw "error";
+// });
 
-app.post("/multiplefiles", upload.array("files"), function (req, res, next) {
-  const files = req.files;
-  if (Array.isArray(files) && files.length > 0) {
-    res.json(req.files);
-  } else {
-    res.status(400);
-    throw new Error("No file");
-  }
-});
+// app.post("/multiplefiles", upload.array("files"), function (req, res, next) {
+//   const files = req.files;
+//   if (Array.isArray(files) && files.length > 0) {
+//     res.json(req.files);
+//   } else {
+//     res.status(400);
+//     throw new Error("No file");
+//   }
+// });
 //
 
 app.use("/api/v1", router);

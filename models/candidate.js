@@ -1,4 +1,5 @@
 const mongoose= require('mongoose');
+const { stringify } = require('uuid');
 
 const candidateSchema =  mongoose.Schema({
 
@@ -10,6 +11,7 @@ const candidateSchema =  mongoose.Schema({
         type:String,
     },
     JobCode:String,
+    resumeid:String,
     //candidate details
     candidateskills:[String],
     candidatefirstname:String,
