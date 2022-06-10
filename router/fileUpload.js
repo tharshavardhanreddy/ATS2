@@ -11,8 +11,8 @@ const express = require('express');
 // const s3 = new aws.S3({apiVersion: '2006-03-01'});
 
 const s3= new aws.S3({
-    accessKeyId:process.env.AWS_Hemanth_ID,
-    secretAccessKey:process.env.AWS_Hemanth_Key
+    accessKeyId:process.env.AWSHemanthID,
+    secretAccessKey:process.env.AWSHemanthKey
 });
 
 
