@@ -17,14 +17,14 @@ const { errorResponse } = require('./utils/Response')
 const error = require('./middleware/error')
 dotenv.config({ path: './config.env' });
 const app = express();
-const port = process.env.PORT || 5000;
+// const port = process.env.PORT || 5000;
 connectDB();
 
 app.use(express.json());
-// const corsOptions = {
-//   origin: "*",
-//   methods: ["POST", "GET", "PUT", "DELETE"]
-// }
+const corsOptions = {
+  origin: "*",
+  methods: ["POST", "GET", "PUT", "DELETE"]
+}
 
 //
 // const storage = multer.diskStorage({
@@ -53,22 +53,22 @@ app.use(express.json());
 // });
 //
 
-app.use(cors())
-// app.use((req, res, next) => {
-//   // console.log(req.hostname, req.headers, req.path);
+app.use(cors(corsOptions))
+app.use((req, res, next) => {
+  // console.log(req.hostname, req.headers, req.path);
 
-//   try {
-//     const allowedMethods = ["POST", "GET", "PUT", "DELETE"];
-//     if (!allowedMethods.includes(req.method)) {
-//       // errorResponse({ status: 400, result: `${req.method} method is not allowed`, res })
-//       throw "not allowed"
+  try {
+    const allowedMethods = ["POST", "GET", "PUT", "DELETE"];
+    if (!allowedMethods.includes(req.method)) {
+      // errorResponse({ status: 400, result: `${req.method} method is not allowed`, res })
+      throw "not allowed"
 
-//     }
-//   } catch (error) {
-//     errorResponse({ status: 400, result: `${req.method} method is not allowed`, res })
-//   }
-//   next();
-// });
+    }
+  } catch (error) {
+    errorResponse({ status: 400, result: `${req.method} method is not allowed`, res })
+  }
+  next();
+});
 
 
 //var upload = multer({ dest: "uploads/" });
@@ -104,7 +104,8 @@ app.use((req, res, next) => {
 
 
 
-app.listen(port, () => {
+app.listen(process.env.PORT || 5000, () => {
+  const port = process.env.PORT || 5000;
   log.info({ module: 'index' }, `Server started on port ${port}`)
 })
 
