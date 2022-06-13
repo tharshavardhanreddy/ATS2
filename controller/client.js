@@ -2,6 +2,7 @@ const ClientModel= require("../models/client");
 const user = require("../models/user");
 const log = require("../utils/bunyanLogger");
 const response = require('../utils/Response');
+const { convertToObjectID } = require('../utils/misc');
 
 class Client{
     constructor(){
@@ -10,10 +11,11 @@ class Client{
 
     async createClient(req,res,next){
         try {
-            const employee= await user.findOne({email:req.body.email})
+            log.info(req.body.AM)
+            const employee= await user.findById(convertToObjectID(req.body.AM))
             const Client= await ClientModel.findOne({clientName:req.body.clientName,location:req.body.location})
                log.info(employee)
-            if(!employee|| employee.roleApplied!=="MANAGER"){
+            if(!employee|| employee.roleApplied!=="MANAGER" || employee.roleApplied!=="ADMIN"){
                 throw new Error("AM not found")
             }
               if(Client){
