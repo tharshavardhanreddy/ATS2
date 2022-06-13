@@ -30,7 +30,7 @@ const userschema = mongoose.Schema({
     emailVerifed:{
          type:Boolean,
          enum:[true,false],
-         default:false
+         default:true
     },
     roleApplied:{
         type: String,
