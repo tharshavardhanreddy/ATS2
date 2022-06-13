@@ -49,7 +49,7 @@ const upload = multer({
 const router = express.Router();
 
 
-router.post("/upload",upload.array('file'),(req,res,next)=>{
+router.post("/uploads",upload.array('file'),(req,res,next)=>{
     console.log(req.body);
 });
 
