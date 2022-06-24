@@ -6,7 +6,6 @@ const { convertToObjectID } = require('../utils/misc');
 
 class Client{
     constructor(){
-
     }
 
     async createClient(req,res,next){
@@ -15,7 +14,7 @@ class Client{
             const employee= await user.findById(convertToObjectID(req.body.AM))
             const Client= await ClientModel.findOne({clientName:req.body.clientName,location:req.body.location})
                log.info(employee)
-            if(!employee|| employee.roleApplied!=="MANAGER" || employee.roleApplied!=="ADMIN"){
+            if(employee.roleApplied!=="MANAGER"){
                 throw new Error("AM not found")
             }
               if(Client){

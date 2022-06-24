@@ -3,21 +3,12 @@ const dotenv = require('dotenv');
 const log = require('./utils/bunyanLogger');
 const connectDB = require('./config/db')
 const router = require('./router/router')
-//
-// const multer = require("multer");
-// const multerS3 = require('multer-s3')
-// const AWS= require('aws-sdk');
-// const S3 = require('aws-sdk/clients/s3');
-// const s3 = new S3();
-// const uuid = require('uuid').v4;
-
-//
 const cors = require('cors');
 const { errorResponse } = require('./utils/Response')
 const error = require('./middleware/error')
 dotenv.config({ path: './config.env' });
 const app = express();
-// const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 connectDB();
 
 app.use(express.json());
@@ -104,8 +95,7 @@ app.use((req, res, next) => {
 
 
 
-app.listen(process.env.PORT || 5000, () => {
-  const port = process.env.PORT || 5000;
+app.listen(port, () => {
   log.info({ module: 'index' }, `Server started on port ${port}`)
 })
 
