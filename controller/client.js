@@ -10,13 +10,13 @@ class Client{
 
     async createClient(req,res,next){
         try {
-            log.info(req.body.AM)
             const employee= await user.findById(convertToObjectID(req.body.AM))
             const Client= await ClientModel.findOne({clientName:req.body.clientName,location:req.body.location})
-               log.info(employee)
-            if(employee.roleApplied!=="MANAGER"){
+            
+            if(employee.roleApplied !== 'MANAGER'){
                 throw new Error("AM not found")
             }
+            log.info(employee.roleApplied ,'im out')
               if(Client){
                   throw new Error("Client Already exists")
               }

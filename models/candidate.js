@@ -14,6 +14,7 @@ const candidateSchema =  mongoose.Schema({
     resumeid:String,
     //candidate details
     candidateskills:[String],
+    CandiSecondarySkills:[String],
     candidatefirstname:String,
     candidatelastname:String,
     candidatenumber:String,
