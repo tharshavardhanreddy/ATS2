@@ -18,7 +18,7 @@ class CandidateClass{
             throw new Error("Candidate details already exists")
            }
             const candidate= await Candidate.create(req.body);
-            const updatereq =await Requirements.findByIdAndUpdate({_id:req.body.RequirementId},{$set:{submittedcandidates:submittedcandidates + 1}},{new:true})
+            const updatereq =await Requirements.findByIdAndUpdate({_id:req.body.RequirementId},{$set:{submittedcandidates:requirementid.submittedcandidates + 1}},{new:true})
 
             response.successReponse({status:201,result:candidate,res})
         } catch (error) {
@@ -74,7 +74,7 @@ class CandidateClass{
                 throw new Error("candidate Id did not match")
             }
             const Candidates = await Candidate.findByIdAndUpdate({_id:candidateid._id},{$set:{RequirementId:null}},{new:true})
-            const updatereq =await Requirements.findByIdAndUpdate({_id:req.body.RequirementId},{$set:{submittedcandidates:submittedcandidates -1 }},{new:true})
+            const updatereq =await Requirements.findByIdAndUpdate({_id:req.body.RequirementId},{$set:{submittedcandidates:requirementid.submittedcandidates -1 }},{new:true})
             response.successReponse({status:200,result:Candidates, res})
         } catch (error) {
         error.statusCode=400;
